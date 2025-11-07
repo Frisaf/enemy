@@ -78,28 +78,47 @@ class Player:
         self.hotbar = Hotbar(5, "")
         self.inventory = Inventory(10)
     
-    @abstractmethod
     def switch_equipped(self, item):
-        pass
+        if item in self.inventory or item in self.hotbar:
+            self.hotbar.equipped_item = item
+
+            return "Switched equipped"
+        
+        else:
+            return "Not found"
 
     def add_to_hotbar(self, item):
         if item in self.inventory.contents:
             self.hotbar.add_item(item)
+            self.inventory.remove_item(item)
+            
+            return "Added", item
+        
+        else:
+            return "Not found", item
 
 def print_inventory_contents():
     for item in inventory.get_contents():
         print(f"{item.name}: {item.description}")
 
-inventory = Inventory(10) # Need to switch inventory to be based on the player instead
+player = Player()
+inventory = player.inventory
 apple = Consumable("Apple", 0.08, "Crispy!", ["Heal"])
 sword = Weapon("Sword", 3, "Slice your enemies down!", 10, 100, ["Soul catcher"])
 pumpkin = Consumable("Pumpkin", 5, "Spooky!", ["Heal"])
-player = Player()
-
-print(player.add_to_hotbar(apple))
 
 print(inventory.add_item(apple))
 print(inventory.add_item(sword))
+
+# ADD ITEM TO HOTBAR
+
+item_to_add = player.add_to_hotbar(apple)
+
+if item_to_add[0] == "Added":
+    print(f"Added {item_to_add[1].name} to inventory.")
+
+else:
+    print(f"Could not find {item_to_add[1].name}.")
 
 inventory.contents[0].print_info()
 
