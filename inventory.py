@@ -35,19 +35,19 @@ class Inventory:
     def get_item(self, item_to_get: str) -> Item | str:
         for item in self.contents:
             if item_to_get == item:
-                return item
+                return "Found", item
             
             else:
-                return f"Could not find {item_to_get.name} in your inventory :("
+                return "Not found", item_to_get
 
     def add_item(self, item):
         if len(self.contents) < self.size:
             self.contents.append(item)
             
-            message = f"Added {item.name} to your inventory."
+            message = "Added", item
         
         else:
-            message = "Inventory full"
+            message = "Inventory full", item
         
         return message
 
@@ -55,10 +55,10 @@ class Inventory:
         if item in self.contents:
             self.contents.remove(item)
 
-            message = f"Removed {item.name} from your inventory."
+            message = "Removed", item
         
         else:
-            message = f"{item.name} could not be found in your inventory."
+            message = "Not found", item
         
         return message
     
@@ -74,12 +74,13 @@ class Hotbar(Inventory):
         self.equipped_item = equipped_item
 
 class Player:
-    def __init__(self):
+    def __init__(self, hp):
         self.hotbar = Hotbar(5, "")
         self.inventory = Inventory(10)
+        self.hp = hp
     
     def switch_equipped(self, item):
-        if item in self.inventory or item in self.hotbar:
+        if item in self.inventory.contents or item in self.hotbar.contents:
             self.hotbar.equipped_item = item
 
             return "Switched equipped"
@@ -96,39 +97,76 @@ class Player:
         
         else:
             return "Not found", item
+    
+    def get_equipped(self):
+        equipped_item = self.hotbar.equipped_item
+
+        return equipped_item.name
 
 def print_inventory_contents():
     for item in inventory.get_contents():
+        print("YOUR INVENTORY")
         print(f"{item.name}: {item.description}")
 
-player = Player()
-inventory = player.inventory
-apple = Consumable("Apple", 0.08, "Crispy!", ["Heal"])
-sword = Weapon("Sword", 3, "Slice your enemies down!", 10, 100, ["Soul catcher"])
-pumpkin = Consumable("Pumpkin", 5, "Spooky!", ["Heal"])
+def print_add_inventory(function):
+    if function[0] == "Added":
+        print(f"Added {function[1].name} to inventory")
+    
+    else:
+        print(f"Could not find {function[1].name}")
 
-print(inventory.add_item(apple))
-print(inventory.add_item(sword))
+def print_add_hotbar(function):
+    if function[0] == "Added":
+        print(f"Added {function[1].name} to hotbar.")
+    
+    else:
+        print(f"Could not find {function[1].name}.")
+
+def print_get_item(function):
+    if function[0] == "Not found":
+        print(f"Could not find {function[1].name}")
+    
+    else:
+        print(function[1].name)
+
+def print_remove_inventory(function):
+    if function[0] == "Removed":
+        print(f"Removed {function[1].name} from inventory.")
+    
+    else:
+        print(f"Could not find {function[1].name}.")
+
+player = Player(100)
+inventory = player.inventory
+items = {
+    "Apple": Consumable("Apple", 0.08, "Crispy!", ["Heal"]),
+    "Sword": Weapon("Sword", 3, "Slice your enemies down!", 10, 100, ["Soul catcher"]),
+    "Pumpkin": Consumable("Pumpkin", 5, "Spooky!", ["Heal"])
+}
+apple = items["Apple"]
+sword = items["Sword"]
+pumpkin = items["Sword"]
+
+print_add_inventory(inventory.add_item(apple))
+print_add_inventory(inventory.add_item(sword))
 
 # ADD ITEM TO HOTBAR
-
-item_to_add = player.add_to_hotbar(apple)
-
-if item_to_add[0] == "Added":
-    print(f"Added {item_to_add[1].name} to inventory.")
-
-else:
-    print(f"Could not find {item_to_add[1].name}.")
+print_add_hotbar(player.add_to_hotbar(apple))
 
 inventory.contents[0].print_info()
 
 print_inventory_contents()
 
-print(inventory.get_item(apple).description)
-print(inventory.get_item(pumpkin))
-print(inventory.remove_item(sword))
+print_get_item(inventory.get_item(apple))
+print_get_item(inventory.get_item(pumpkin))
+
+print_remove_inventory(inventory.remove_item(sword))
+
 print(inventory.clear())
 
 inventory.add_item(pumpkin)
 
 print_inventory_contents()
+
+player.switch_equipped(apple)
+print(f"Current equipped item: {player.get_equipped()}")
