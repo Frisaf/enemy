@@ -74,9 +74,9 @@ class Hotbar(Inventory):
         self.equipped_item = equipped_item
 
 class Player:
-    def __init__(self, hp):
+    def __init__(self, hp, inventory_size):
         self.hotbar = Hotbar(5, "")
-        self.inventory = Inventory(10)
+        self.inventory = Inventory(inventory_size)
         self.hp = hp
     
     def switch_equipped(self, item):
@@ -136,7 +136,7 @@ def print_remove_inventory(function):
     else:
         print(f"Could not find {function[1].name}.")
 
-player = Player(100)
+player = Player(100, 5)
 inventory = player.inventory
 items = {
     "Apple": Consumable("Apple", 0.08, "Crispy!", ["Heal"]),
