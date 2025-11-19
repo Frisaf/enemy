@@ -138,35 +138,39 @@ def print_remove_inventory(function):
 
 player = Player(100, 5)
 inventory = player.inventory
+
 items = {
     "Apple": Consumable("Apple", 0.08, "Crispy!", ["Heal"]),
     "Sword": Weapon("Sword", 3, "Slice your enemies down!", 10, 100, ["Soul catcher"]),
     "Pumpkin": Consumable("Pumpkin", 5, "Spooky!", ["Heal"])
 }
-apple = items["Apple"]
-sword = items["Sword"]
-pumpkin = items["Sword"]
 
-print_add_inventory(inventory.add_item(apple))
-print_add_inventory(inventory.add_item(sword))
+### TEST CODE I MADE TO SEE IF IT WORKED ###
 
-# ADD ITEM TO HOTBAR
-print_add_hotbar(player.add_to_hotbar(apple))
+# apple = items["Apple"]
+# sword = items["Sword"]
+# pumpkin = items["Sword"]
 
-inventory.contents[0].print_info()
+# print_add_inventory(inventory.add_item(apple))
+# print_add_inventory(inventory.add_item(sword))
 
-print_inventory_contents()
+# # ADD ITEM TO HOTBAR
+# print_add_hotbar(player.add_to_hotbar(apple))
 
-print_get_item(inventory.get_item(apple))
-print_get_item(inventory.get_item(pumpkin))
+# inventory.contents[0].print_info()
 
-print_remove_inventory(inventory.remove_item(sword))
+# print_inventory_contents()
 
-print(inventory.clear())
+# print_get_item(inventory.get_item(apple))
+# print_get_item(inventory.get_item(pumpkin))
 
-inventory.add_item(pumpkin)
+# print_remove_inventory(inventory.remove_item(sword))
 
-print_inventory_contents()
+# print(inventory.clear())
 
-player.switch_equipped(apple)
-print(f"Current equipped item: {player.get_equipped()}")
+# inventory.add_item(pumpkin)
+
+# print_inventory_contents()
+
+# player.switch_equipped(apple)
+# print(f"Current equipped item: {player.get_equipped()}")
