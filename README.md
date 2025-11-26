@@ -20,3 +20,5 @@ Tyvärr hann jag inte lägga till så man kan lägga till items i hotbar i Tkint
 
 ## Vad behöver jag tänka på?
 Att skapa ett snyggare gränssnitt hade varit trevligt, men då hade jag behövt mer tid. Klasser har varit mycket intressant att fördjupa sig i, men jag tror jag behöver mycket mer övning innan jag har bemästrat det. Jag tror dock att jag har fattat grundidén samt grundläggande användning av dem.
+
+Jag tror även att det hade varit användbart med att ha hotbar content i sin egen låda, men det hade jag inte tid att fixa. Jag skulle behöva använda grid för det, vilket jag inte hade tid att sätta mig in i.

@@ -80,23 +80,47 @@ class Player:
         self.hp = hp
     
     def switch_equipped(self, item):
-        if item in self.inventory.contents or item in self.hotbar.contents:
-            self.hotbar.equipped_item = item
+        # if item in self.inventory.contents or item in self.hotbar.contents:
+        #     self.hotbar.equipped_item = item
 
-            return "Switched equipped"
+        #     return "Switched equipped"
         
-        else:
-            return "Not found"
+        # else:
+        #     return "Not found"
+
+        for thing in self.inventory.contents:
+            if item == thing.name:
+                self.hotbar.equipped_item = thing
+
+                return "Switched equipped"
+        
+        for thing in self.hotbar.contents:
+            if item == thing.name:
+                self.hotbar.equipped_item = thing
+
+                return "Switched equipped"
+        
+        return "Not found"
 
     def add_to_hotbar(self, item):
-        if item in self.inventory.contents:
-            self.hotbar.add_item(item)
-            self.inventory.remove_item(item)
+        # if item in self.inventory.contents:
+        #     self.hotbar.add_item(item)
+        #     self.inventory.remove_item(item)
             
-            return "Added", item
+        #     return "Added", item
         
-        else:
-            return "Not found", item
+        # else:
+        #     return "Not found", item
+
+        for thing in self.inventory.contents:
+            if item == thing.name:
+                self.hotbar.add_item(thing)
+                self.inventory.remove_item(thing)
+            
+                return "Added", thing
+            
+            else:
+                return "Not found", thing
     
     def get_equipped(self):
         equipped_item = self.hotbar.equipped_item

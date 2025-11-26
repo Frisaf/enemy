@@ -1,5 +1,6 @@
 from inventory import *
 from tkinter import *
+from tkinter import ttk
 import random
 
 player = Player(100, 5)
@@ -96,13 +97,13 @@ def create_item():
             durability = int(create_weapon_durability.get())
         
         except ValueError:
-            info_text.configure("The weight and the durability have to be numbers")
+            info_text.configure(text = "The weight and the durability have to be numbers")
             info_text.pack()
 
         new_item = Weapon(name, weight, description, damage, durability, ability)
     
     else:
-        info_text.configure("Your item type has to be either a Weapon or a Consumable")
+        info_text.configure(text = "Your item type has to be either a Weapon or a Consumable")
         info_text.pack()
     
     inventory.add_item(new_item)
@@ -124,7 +125,7 @@ def equip_item():
     if item_to_equip != "":
         equip = player.switch_equipped(item_to_equip)
 
-        if equip != "Switched equipped":
+        if equip == "Switched equipped":
             info_text.configure(text = f"Equipped {item_to_equip}")
             equipped_item.configure(text = f"EQUIPPED ITEM: {item_to_equip}")
         
@@ -140,7 +141,7 @@ def hotbar():
     if item_to_add != "":
         hotbar = player.add_to_hotbar(item_to_add)
 
-        if hotbar[0] != "Added":
+        if hotbar[0] == "Added":
             info_text.configure(text = f"Added {item_to_add} to hotbar")
         
         else:
@@ -167,7 +168,8 @@ add_item_hotbar.pack()
 add_item_hotbar_btn = Button(root, text = "Add item to hotbar", command = hotbar).pack(pady=4)
 
 create_item_name = Entry(root, width=30)
-create_item_type = Entry(root, width=30)
+create_item_type = ttk.Combobox(root, values=["Consumable", "Weapon"])
+create_item_type.set("Select item type")
 create_item_weight = Entry(root, width=20)
 create_item_description = Entry(root, width=30)
 create_item_ability = Entry(root, width=30)
@@ -179,7 +181,7 @@ create_item_button = Button(root, text = "Create new item", command = create_ite
 Label(text = "CREATE A NEW ITEM").pack()
 Label(text = "Item name").pack()
 create_item_name.pack(pady=4)
-Label(text = "Item type (Weapon or Consumable)").pack()
+Label(text = "Choose item type").pack()
 create_item_type.pack(pady=4)
 Label(text = "Item weight in kg (Type a number)").pack()
 create_item_weight.pack(pady=4)
